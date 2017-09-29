@@ -61,7 +61,7 @@ public class Percolation {
             throw new java.lang.IllegalArgumentException();
         return grid[row - 1][col - 1];
     } 
-    // is site (row, col) full?
+    // is site (row, col) full (means that site gets water)?
     public boolean isFull(int row, int col) {
         if(row < 1 || row > grid[0].length || col < 1 || col > grid.length) 
             throw new java.lang.IllegalArgumentException();
