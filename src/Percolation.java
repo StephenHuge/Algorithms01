@@ -64,7 +64,7 @@ public class Percolation {
         return false;
     } 
     public int numberOfOpenSites() {
-        return -1;
+        return openedNum;
     }     
     // does the system percolate?
     public boolean percolates() {
