@@ -12,7 +12,8 @@ public class Percolation {
     
     private static final boolean OPENED = true;
     
-    private static final boolean NOT_OPENED = false;
+//    private static final boolean NOT_OPENED = false;
+    private int openedNum = 0;
     
     private boolean[][] grid;
     
@@ -33,7 +34,10 @@ public class Percolation {
     public void open(int row, int col) {
         if(row < 0 || row > grid[0].length - 1 || col < 0 || col > grid.length - 1) 
             throw new java.lang.IllegalArgumentException();
-        if(!isOpen(row, col)) grid[row][col] = OPENED;
+        if(!isOpen(row, col)) {
+            grid[row][col] = OPENED;
+            openedNum++;
+        }
 
         int position = row * grid.length + col;
         int up = (row - 1) * grid.length + col;
@@ -41,9 +45,9 @@ public class Percolation {
         int left = row * grid.length + (col - 1);
         int right = row * grid.length + (col + 1);
         
-        if(row != 0 && isOpen(row - 1, col))           w.union(position, up);   // 是否处于上边界
+        if(row != 0 && isOpen(row - 1, col))                 w.union(position, up);   // 是否处于上边界
         if((row != grid.length - 1) && isOpen(row + 1, col)) w.union(position, down); // 是否处于下边界
-        if(col != 0 && isOpen(row, col - 1))           w.union(position, left);  // 是否处于左边界
+        if(col != 0 && isOpen(row, col - 1))                 w.union(position, left); // 是否处于左边界
         if((col != grid.length - 1) && isOpen(row, col + 1)) w.union(position, right);// 是否处于右边界
     }
     
