@@ -49,9 +49,9 @@ public class Percolation {
         int left = (row - 1) * grid.length + (col - 2);
         int right = (row - 1) * grid.length + col;
         
-        if(row != 1 && isOpen(row - 1, col))                 w.union(position, up);   // 是否处于上边界
+        if(row != 1 && isOpen(row - 1, col))             w.union(position, up);   // 是否处于上边界
         if((row != grid.length) && isOpen(row + 1, col)) w.union(position, down); // 是否处于下边界
-        if(col != 1 && isOpen(row, col - 1))                 w.union(position, left); // 是否处于左边界
+        if(col != 1 && isOpen(row, col - 1))             w.union(position, left); // 是否处于左边界
         if((col != grid.length) && isOpen(row, col + 1)) w.union(position, right);// 是否处于右边界
     }
     
@@ -65,6 +65,7 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         if(row < 1 || row > grid[0].length || col < 1 || col > grid.length) 
             throw new java.lang.IllegalArgumentException();
+        if(isOpen(row, col) && row == 1)    return true;
         return false;
     } 
     public int numberOfOpenSites() {
