@@ -56,7 +56,7 @@ public class Percolation {
     
     // is site (row, col) open?
     public boolean isOpen(int row, int col) {
-        if(row < 0 || row > grid[0].length -1 || col < 0 || col > grid.length - 1) 
+        if(row < 0 || row > grid[0].length - 1 || col < 0 || col > grid.length - 1) 
             throw new java.lang.IllegalArgumentException();
         return grid[row][col];
     } 
