@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import edu.princeton.cs.algs4.Stopwatch;
+
 public class WeightedQUWithPC extends UF {
 
     private int[] sz;   // 以数组下标为索引，各个根节点所对应的分量的大小
@@ -19,10 +21,10 @@ public class WeightedQUWithPC extends UF {
     public void union(int p, int q) {
         if(p < 0 || p > id.length - 1 || q < 0 || q > id.length - 1)  
             throw new java.lang.ArrayIndexOutOfBoundsException();
-        int pRoot = find(p);
-        int qRoot = find(q);
+        int pRoot = root(p);
+        int qRoot = root(q);
         
-        if(sz[pRoot] >= sz[qRoot]) {    // p子节点比q的子节点多
+        if(sz[pRoot] > sz[qRoot]) {    // p子节点比q的子节点多
             id[qRoot] = pRoot;
             sz[pRoot] += sz[qRoot];
         } else {
@@ -40,9 +42,12 @@ public class WeightedQUWithPC extends UF {
     }
     
     private int root(int i) {
+        int temp;   // 临时节点
+        
         while(i != id[i]) {
-            id[i] = id[id[i]];
-            i = id[i];
+            temp = id[i];
+            id[i] = find(i);
+            i = temp;
         }
         return i;
     }
@@ -60,18 +65,19 @@ public class WeightedQUWithPC extends UF {
         UF uf = new WeightedQuickUnion(N);
         int p, q;
         
+        Stopwatch sp = new Stopwatch();
+        
         while(true) {
             String nextLine = in.nextLine();
-            System.out.println(nextLine);
             if (nextLine == null || nextLine.trim().length() == 0) {
-                System .out.println("blank line");
+//                System .out.println("blank line");
                 break;   
             }
             String[] strs = nextLine.split(" ");
             p = Integer.parseInt(strs[0]);
             q = Integer.parseInt(strs[1]);
             if(uf.connected(p, q)) {
-                System.out.println(p + " and " +q + " is connected!");
+//                System.out.println(p + " and " +q + " is connected!");
                 continue;
             }   
             uf.union(p, q);
@@ -79,10 +85,12 @@ public class WeightedQUWithPC extends UF {
 //            System.out.print("The array is ");
 //            for(int i : uf.id)
 //                System.out.print(i + " ");
-           System.out.println("There are " + uf.count() + " components left.");
+//           System.out.println("There are " + uf.count() + " components left.");
         }
         in.close();
-        System.out.println("execution stop...");
+//        System.out.println("execution stop...");
+        double endTime = sp.elapsedTime();
+        System.out.println("Time used: " + endTime + " s");
     }
 
 }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import edu.princeton.cs.algs4.Stopwatch;
+
 /**
  * 某个点的含义：数组下标代表当前点，该点的值就是以当前点作为数组下标得到的值
  * 实现方法是如果两个点连通，就让前一个点的值变成后一个点的值
@@ -35,7 +37,7 @@ public class WeightedQuickUnion extends UF {
         int pRoot = find(p);
         int qRoot = find(q);
         
-        if(sz[pRoot] >= sz[qRoot]) {    // p子节点比q的子节点多
+        if(sz[pRoot] > sz[qRoot]) {    // p子节点比q的子节点多
             id[qRoot] = pRoot;
             sz[pRoot] += sz[qRoot];
         } else {
@@ -65,18 +67,19 @@ public class WeightedQuickUnion extends UF {
         UF uf = new WeightedQuickUnion(N);
         int p, q;
         
+        Stopwatch sp = new Stopwatch();
+        
         while(true) {
             String nextLine = in.nextLine();
-            System.out.println(nextLine);
             if (nextLine == null || nextLine.trim().length() == 0) {
-                System .out.println("blank line");
+//                System .out.println("blank line");
                 break;   
             }
             String[] strs = nextLine.split(" ");
             p = Integer.parseInt(strs[0]);
             q = Integer.parseInt(strs[1]);
             if(uf.connected(p, q)) {
-                System.out.println(p + " and " +q + " is connected!");
+//                System.out.println(p + " and " +q + " is connected!");
                 continue;
             }   
             uf.union(p, q);
@@ -84,9 +87,11 @@ public class WeightedQuickUnion extends UF {
 //            System.out.print("The array is ");
 //            for(int i : uf.id)
 //                System.out.print(i + " ");
-           System.out.println("There are " + uf.count() + " components left.");
+//           System.out.println("There are " + uf.count() + " components left.");
         }
         in.close();
-        System.out.println("execution stop...");
+//        System.out.println("execution stop...");
+        double endTime = sp.elapsedTime();
+        System.out.println("Time used: " + endTime + " s");
     }
 }
