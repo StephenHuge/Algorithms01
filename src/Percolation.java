@@ -15,6 +15,7 @@ public class Percolation {
     private static final boolean OPENED = true;
     
 //    private static final boolean NOT_OPENED = false;
+    
     private int openedNum = 0;
     
     private int virtualUpRoot = 0;
@@ -35,34 +36,34 @@ public class Percolation {
     }
     // open site (row, col) if it is not open already
     public void open(int row, int col) {
-        if(row < 0 || row > grid[0].length - 1 || col < 0 || col > grid.length - 1) 
+        if(row < 1 || row > grid[0].length || col < 1 || col > grid.length) 
             throw new java.lang.IllegalArgumentException();
         if(!isOpen(row, col)) {
-            grid[row][col] = OPENED;
+            grid[row - 1][col - 1] = OPENED;
             openedNum++;
         }
 
-        int position = row * grid.length + col;
-        int up = (row - 1) * grid.length + col;
-        int down = (row + 1) * grid.length + col;
-        int left = row * grid.length + (col - 1);
-        int right = row * grid.length + (col + 1);
+        int position = (row - 1) * grid.length + col - 1;
+        int up = (row - 2) * grid.length + col - 1;
+        int down = row * grid.length + col - 1;
+        int left = (row - 1) * grid.length + (col - 2);
+        int right = (row - 1) * grid.length + col;
         
-        if(row != 0 && isOpen(row - 1, col))                 w.union(position, up);   // 是否处于上边界
-        if((row != grid.length - 1) && isOpen(row + 1, col)) w.union(position, down); // 是否处于下边界
-        if(col != 0 && isOpen(row, col - 1))                 w.union(position, left); // 是否处于左边界
-        if((col != grid.length - 1) && isOpen(row, col + 1)) w.union(position, right);// 是否处于右边界
+        if(row != 1 && isOpen(row - 1, col))                 w.union(position, up);   // 是否处于上边界
+        if((row != grid.length) && isOpen(row + 1, col)) w.union(position, down); // 是否处于下边界
+        if(col != 1 && isOpen(row, col - 1))                 w.union(position, left); // 是否处于左边界
+        if((col != grid.length) && isOpen(row, col + 1)) w.union(position, right);// 是否处于右边界
     }
     
     // is site (row, col) open?
     public boolean isOpen(int row, int col) {
-        if(row < 0 || row > grid[0].length - 1 || col < 0 || col > grid.length - 1) 
+        if(row < 1 || row > grid[0].length || col < 1 || col > grid.length) 
             throw new java.lang.IllegalArgumentException();
-        return grid[row][col];
+        return grid[row - 1][col - 1];
     } 
     // is site (row, col) full?
     public boolean isFull(int row, int col) {
-        if(row < 0 || row > grid[0].length - 1 || col < 0 || col > grid.length - 1) 
+        if(row < 1 || row > grid[0].length || col < 1 || col > grid.length) 
             throw new java.lang.IllegalArgumentException();
         return false;
     } 
@@ -76,10 +77,10 @@ public class Percolation {
     // test client (optional)
     public static void main(String[] args) {
         Percolation p = new Percolation(10);
-        for(int i = 0; i < p.grid.length; i++) {
-            for(int j = 0; j < p.grid.length; j++) {
+        for(int i = 1; i <= p.grid.length; i++) {
+            for(int j = 1; j <= p.grid.length; j++) {
                 p.open(i, j);
-                System.out.println(i + " - " + j + ": " + p.grid[i][j]);
+                System.out.println(i + " - " + j + ": " + p.grid[i - 1][j - 1]);
             }
         }
     } 
