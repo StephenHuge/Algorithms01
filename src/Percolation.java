@@ -1,11 +1,11 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 /**
- * ÊµÏÖÒ»¸öPercolationÀà
+ * å®ç°ä¸€ä¸ªPercolationç±»
  * 
  * @author HJS
  * 
- * @date 2017Äê9ÔÂ29ÈÕ
+ * @date 2017å¹´9æœˆ29æ—¥
  * 
  */
 public class Percolation {
@@ -22,7 +22,9 @@ public class Percolation {
     private int virtualDownRoot;
     
     private WeightedQuickUnionUF w;
-    // create n-by-n grid, with all sites blocked
+    /*
+     * create n-by-n grid, with all sites blocked
+     */
     public Percolation(int n) {
         if(n <= 0) throw new java.lang.IllegalArgumentException();
         
@@ -37,7 +39,9 @@ public class Percolation {
         virtualUpRoot = n * n;
         virtualDownRoot = n * n + 1;
     }
-    // open site (row, col) if it is not open already
+    /*
+     *  open site (row, col) if it is not open already
+     */
     public void open(int row, int col) {
         if(row < 1 || row > grid[0].length || col < 1 || col > grid.length) 
             throw new java.lang.IllegalArgumentException();
@@ -52,44 +56,52 @@ public class Percolation {
         int left = (row - 1) * grid.length + (col - 2);
         int right = (row - 1) * grid.length + col;
         
-        if(row == 1)             // µÚÒ»ĞĞÓĞÒ»¸öĞé½áµã£¬ÊÇÎªÁËºóÃæ¼ò»¯ÅĞ¶ÏÊÇ·ñÉøÎö¶øÉèÖÃµÄ
+        if(row == 1)             // ç¬¬ä¸€è¡Œæœ‰ä¸€ä¸ªè™šç»“ç‚¹ï¼Œæ˜¯ä¸ºäº†åé¢ç®€åŒ–åˆ¤æ–­æ˜¯å¦æ¸—æè€Œè®¾ç½®çš„
             w.union(position, virtualUpRoot);
         else if(row == grid.length)                      
             w.union(position, virtualDownRoot);
-        if(row != 1 && isOpen(row - 1, col))    // ÊÇ·ñ´¦ÓÚÉÏ±ß½ç             
+        if(row != 1 && isOpen(row - 1, col))    // æ˜¯å¦å¤„äºä¸Šè¾¹ç•Œ             
             w.union(position, up);   
-        if((row != grid.length) && isOpen(row + 1, col)) // ÊÇ·ñ´¦ÓÚÏÂ±ß½ç 
+        if((row != grid.length) && isOpen(row + 1, col)) // æ˜¯å¦å¤„äºä¸‹è¾¹ç•Œ 
             w.union(position, down);
-        if(col != 1 && isOpen(row, col - 1)) // ÊÇ·ñ´¦ÓÚ×ó±ß½ç             
+        if(col != 1 && isOpen(row, col - 1)) // æ˜¯å¦å¤„äºå·¦è¾¹ç•Œ             
             w.union(position, left);
-        if((col != grid.length) && isOpen(row, col + 1)) // ÊÇ·ñ´¦ÓÚÓÒ±ß½ç 
+        if((col != grid.length) && isOpen(row, col + 1)) // æ˜¯å¦å¤„äºå³è¾¹ç•Œ 
             w.union(position, right);
     }
     
-    // is site (row, col) open?
+    /*
+     * is site (row, col) open?
+     */
     public boolean isOpen(int row, int col) {
         if(row < 1 || row > grid[0].length || col < 1 || col > grid.length) 
             throw new java.lang.IllegalArgumentException();
         return grid[row - 1][col - 1];
     } 
-    // is site (row, col) full (means that site gets water)?
+    /*
+     * is site (row, col) full (means that site gets water)?
+     */
     public boolean isFull(int row, int col) {
         if(row < 1 || row > grid[0].length || col < 1 || col > grid.length) 
             throw new java.lang.IllegalArgumentException();
-        if(isOpen(row, col) && row == 1)    return true;    // ×îÉÏÃæÒ»ĞĞÄ¬ÈÏÓĞË®
-        int position = (row - 1) * grid.length + col - 1;   // µ±Ç°½Úµã
-        if(w.connected(position, virtualUpRoot))            // Èç¹û¸úUpĞé½áµãÓĞÁ¬½ÓÔò·µ»Øtrue   
+        if(isOpen(row, col) && row == 1)    return true;    // æœ€ä¸Šé¢ä¸€è¡Œé»˜è®¤æœ‰æ°´
+        int position = (row - 1) * grid.length + col - 1;   // å½“å‰èŠ‚ç‚¹
+        if(w.connected(position, virtualUpRoot))            // å¦‚æœè·ŸUpè™šç»“ç‚¹æœ‰è¿æ¥åˆ™è¿”å›true   
             return true;
         return false;
     } 
     public int numberOfOpenSites() {
         return openedNum;
     }     
-    // does the system percolate?
+    /*
+     *  does the system percolate?
+     */
     public boolean percolates() {
         return w.connected(virtualUpRoot, virtualDownRoot);
     }             
-    // test client (optional)
+    /*
+     * test client (optional)
+     */
     public static void main(String[] args) {
         Percolation p = new Percolation(10);
         
