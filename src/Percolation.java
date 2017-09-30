@@ -92,6 +92,7 @@ public class Percolation {
     // test client (optional)
     public static void main(String[] args) {
         Percolation p = new Percolation(10);
+        
         for(int i = 1; i <= p.grid.length; i++) {
             for(int j = 1; j <= p.grid.length; j++) {
                 p.open(i, j);
