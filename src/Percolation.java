@@ -18,21 +18,24 @@ public class Percolation {
     
     private int openedNum = 0;
     
-    private int virtualUpRoot = 0;
-    private int virtualDownRoot = 0;
+    private int virtualUpRoot;
+    private int virtualDownRoot;
     
     private WeightedQuickUnionUF w;
     // create n-by-n grid, with all sites blocked
     public Percolation(int n) {
         if(n <= 0) throw new java.lang.IllegalArgumentException();
+        
         grid = new boolean[n][n];
-        w = new WeightedQuickUnionUF(n * n);
         for(int i = 0; i < grid.length; i++) {
             for(int j = 0; j < grid[0].length; j++) {
                 grid[i][j] = false;
             }
         }
         
+        w = new WeightedQuickUnionUF(n * n + 2);
+        virtualUpRoot = n * n;
+        virtualDownRoot = n * n + 1;
     }
     // open site (row, col) if it is not open already
     public void open(int row, int col) {
@@ -49,10 +52,18 @@ public class Percolation {
         int left = (row - 1) * grid.length + (col - 2);
         int right = (row - 1) * grid.length + col;
         
-        if(row != 1 && isOpen(row - 1, col))             w.union(position, up);   // 是否处于上边界
-        if((row != grid.length) && isOpen(row + 1, col)) w.union(position, down); // 是否处于下边界
-        if(col != 1 && isOpen(row, col - 1))             w.union(position, left); // 是否处于左边界
-        if((col != grid.length) && isOpen(row, col + 1)) w.union(position, right);// 是否处于右边界
+        if(row == 1)             
+            w.union(position, virtualUpRoot);
+        else if(row == grid.length && isFull(row, col))                      
+            w.union(position, virtualDownRoot);
+        if(row != 1 && isOpen(row - 1, col))    // 是否处于上边界             
+            w.union(position, up);   
+        if((row != grid.length) && isOpen(row + 1, col)) // 是否处于下边界 
+            w.union(position, down);
+        if(col != 1 && isOpen(row, col - 1)) // 是否处于左边界             
+            w.union(position, left);
+        if((col != grid.length) && isOpen(row, col + 1)) // 是否处于右边界 
+            w.union(position, right);
     }
     
     // is site (row, col) open?
@@ -65,7 +76,10 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         if(row < 1 || row > grid[0].length || col < 1 || col > grid.length) 
             throw new java.lang.IllegalArgumentException();
-        if(isOpen(row, col) && row == 1)    return true;
+        if(isOpen(row, col) && row == 1)    return true;    // 最上面一行默认有水
+        int position = (row - 1) * grid.length + col - 1;   // 当前节点
+        if(w.connected(position, virtualUpRoot))            // 如果跟Up虚结点有连接则返回true   
+            return true;
         return false;
     } 
     public int numberOfOpenSites() {
@@ -73,7 +87,7 @@ public class Percolation {
     }     
     // does the system percolate?
     public boolean percolates() {
-        return false;
+        return w.connected(virtualUpRoot, virtualDownRoot);
     }             
     // test client (optional)
     public static void main(String[] args) {
