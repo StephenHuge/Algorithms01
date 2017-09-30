@@ -54,7 +54,7 @@ public class Percolation {
         
         if(row == 1)             // 第一行有一个虚结点，是为了后面简化判断是否渗析而设置的
             w.union(position, virtualUpRoot);
-        else if(row == grid.length && isFull(row, col))                      
+        else if(row == grid.length)                      
             w.union(position, virtualDownRoot);
         if(row != 1 && isOpen(row - 1, col))    // 是否处于上边界             
             w.union(position, up);   
