@@ -52,7 +52,7 @@ public class Percolation {
         int left = (row - 1) * grid.length + (col - 2);
         int right = (row - 1) * grid.length + col;
         
-        if(row == 1)             
+        if(row == 1)             // 第一行有一个虚结点，是为了后面简化判断是否渗析而设置的
             w.union(position, virtualUpRoot);
         else if(row == grid.length && isFull(row, col))                      
             w.union(position, virtualDownRoot);
@@ -98,5 +98,6 @@ public class Percolation {
                 System.out.println(i + " - " + j + ": " + p.grid[i - 1][j - 1]);
             }
         }
+        System.out.println(p.numberOfOpenSites());
     } 
 }
