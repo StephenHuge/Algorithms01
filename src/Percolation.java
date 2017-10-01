@@ -1,7 +1,7 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 /**
- * 实现一个Percolation类
+ * implement class Percolation 
  * 
  * @author HJS
  * 
@@ -14,7 +14,6 @@ public class Percolation {
     
     private static final boolean OPENED = true;
     
-//    private static final boolean NOT_OPENED = false;
     
     private int openedNum = 0;
     
@@ -56,17 +55,17 @@ public class Percolation {
         int left = (row - 1) * grid.length + (col - 2);
         int right = (row - 1) * grid.length + col;
         
-        if(row == 1)             // 第一行有一个虚结点，是为了后面简化判断是否渗析而设置的
+        if(row == 1)             // there is a virtual root for row 1, for simplify the codes
             w.union(position, virtualUpRoot);
         else if(row == grid.length)                      
             w.union(position, virtualDownRoot);
-        if(row != 1 && isOpen(row - 1, col))    // 是否处于上边界             
+        if(row != 1 && isOpen(row - 1, col))    // whether in the up edge             
             w.union(position, up);   
-        if((row != grid.length) && isOpen(row + 1, col)) // 是否处于下边界 
+        if((row != grid.length) && isOpen(row + 1, col)) // whether in the down edge 
             w.union(position, down);
-        if(col != 1 && isOpen(row, col - 1)) // 是否处于左边界             
+        if(col != 1 && isOpen(row, col - 1)) // whether in the left edge             
             w.union(position, left);
-        if((col != grid.length) && isOpen(row, col + 1)) // 是否处于右边界 
+        if((col != grid.length) && isOpen(row, col + 1)) // whether in the right edge 
             w.union(position, right);
     }
     
