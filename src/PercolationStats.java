@@ -21,14 +21,14 @@ public class PercolationStats {
 	/*
 	 *  experiment times
 	 */
-	private final int trials;
+	private final int exTimes;
 	/*
 	 * perform trials independent experiments on an n-by-n grid
 	 */
 	public PercolationStats(int n, int trials) {
 		if (n <= 0 || trials <= 0) throw new java.lang.IllegalArgumentException();
 		this.range = n;
-		this.trials = trials;
+		this.exTimes = trials;
 		openSites = new int[trials];
 		calculate(n, trials);
 	}
@@ -67,8 +67,8 @@ public class PercolationStats {
 	/**
 	 * get experiment times 
 	 */
-	private int getTrials() {
-	    return trials;
+	private int getExTimes() {
+	    return exTimes;
 	}
 	private int getRange() {
 	    return range;
@@ -93,14 +93,14 @@ public class PercolationStats {
 	 */
 	private final double CONFIDENCE_95 = 1.96;
 	public double confidenceLo() {
-	    double cl = mean() - (CONFIDENCE_95 * stddev()) / getTrials(); 
+	    double cl = mean() - (CONFIDENCE_95 * stddev()) / getExTimes(); 
 		return  cl;
 	}
 	/*
 	 * high endpoint of 95% confidence interval
 	 */
 	public double confidenceHi() {
-	    double ch = mean() + (CONFIDENCE_95 * stddev()) / getTrials(); 
+	    double ch = mean() + (CONFIDENCE_95 * stddev()) / getExTimes(); 
         return  ch;
 	}  
 	/*
