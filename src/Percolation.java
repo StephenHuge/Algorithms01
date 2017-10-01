@@ -56,7 +56,8 @@ public class Percolation {
         
         if (row == 1)             // there is a virtual root for row 1, for simplify the codes
             w.union(position, virtualUpRoot);
-        if (row == grid.length)   // there is a virtual root for row grid.length, for simplify the codes
+        // there is a virtual root for row grid.length, for simplify the codes
+        if (row == grid.length && w.connected(position, virtualUpRoot))   
             w.union(position, virtualDownRoot);
         if (row != 1 && isOpen(row - 1, col))    // whether in the up edge             
             w.union(position, up);   
@@ -80,10 +81,13 @@ public class Percolation {
      */
     public boolean isFull(int row, int col) {
         validate(row, col);
-        if (isOpen(row, col) && row == 1)    return true;    // 最上面一行默认有水
-        int position = (row - 1) * grid.length + col - 1;   // 当前节点
-        if (w.connected(position, virtualUpRoot))            // 如果跟Up虚结点有连接则返回true   
+        int position = (row - 1) * grid.length + col - 1;   // current site
+        // there is water in row 1, and if connected with virtual up root, then return true
+        if ((row == 1 && isOpen(row, col)) || w.connected(position, virtualUpRoot)) {
+            System.out.println("isFull: " + row + " - " + col);
+            
             return true;
+        }    
         return false;
     } 
     private void validate(int row, int col) {
@@ -108,6 +112,7 @@ public class Percolation {
         for (int i = 1; i <= p.grid.length; i++) {
             for (int j = 1; j <= p.grid.length; j++) {
                 p.open(i, j);
+                p.isFull(i, j);
                 System.out.println(i + " - " + j + ": " + p.grid[i - 1][j - 1]);
             }
         }

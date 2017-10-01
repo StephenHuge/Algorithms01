@@ -18,11 +18,7 @@ public class PercolationStats {
     /**
      * array storing all the openSites in experiments
      */
-    private int[] openSites;
-    /**
-     * the number n
-     */
-    private final int range;
+    private double[] openSites;
     /*
      *  experiment times
      */
@@ -32,9 +28,8 @@ public class PercolationStats {
      */
     public PercolationStats(int n, int trials) {
         validate(n, trials);
-        this.range = n;
         this.exTimes = trials;
-        openSites = new int[trials];
+        openSites = new double[trials];
         calculate(n, trials);
     }
 
@@ -51,16 +46,15 @@ public class PercolationStats {
         Percolation p;
         for (int i = 0; i < trials; i++) {    // for trials times experiments 
             p = new Percolation(n);
-            int random, row, col, prclteTimes = 0;  
+            int row, col, prclteTimes = 0;  
             for (int j = 0; j < getPower2(n); j++) { // start n * n times open until this experiment percolates
-                random = StdRandom.uniform(getPower2(n) - 1) + 1;    // get a random number to open, range is [1, n * n] 
-                col = random % n;     
-                row = col == 0 ? random / n : random / n + 1;
-                col = col == 0 ? n : col;
+                row = StdRandom.uniform(n) + 1; // get a random number for row [1, n + 1)
+                col = StdRandom.uniform(n) + 1; // get a random number for col [1, n + 1)
+//                System.out.println("random:" + row + " - " + col);
                 p.open(row, col);
                 if (p.percolates())  {     // this model percolates 
                     prclteTimes = p.numberOfOpenSites();
-                    openSites[i] = prclteTimes;   // record openSites of this model
+                    openSites[i] = 1.0 * prclteTimes / getPower2(n);   // record possibility percolates mean of this model
                     break;   
                 }
             }
@@ -68,10 +62,10 @@ public class PercolationStats {
     }
     
     private static void log(PercolationStats ps) {
-        System.out.println("mean\t\t\t = " + ps.mean());
+        System.out.println("mean\t\t\t = " + String.format("%6f", ps.mean()));
         System.out.println("stddev\t\t\t = " + ps.stddev());
-        System.out.println("95% confidence interval\t = [" 
-                    + ps.confidenceLo() + ", " + ps.confidenceHi() + "]");
+        System.out.println("95% confidence interval\t = [" + String.format("%6f", ps.confidenceLo()) 
+                    + ", " + String.format("%6f", ps.confidenceLo()) + "]");
     }
     private int getPower2(int num) {
         return num * num;
@@ -82,14 +76,11 @@ public class PercolationStats {
     private int getExTimes() {
         return exTimes;
     }
-    private int getRange() {
-        return range;
-    }
     /*
      * sample mean of percolation threshold
      */
     public double mean() {
-        double avgSum = StdStats.mean(openSites) / getPower2(getRange());
+        double avgSum = StdStats.mean(openSites);
         return avgSum;
     } 
 
@@ -118,9 +109,9 @@ public class PercolationStats {
      * test client (described below)
      */
     public static void main(String[] args) {
-//        int n = Integer.parseInt(args[0]);
-//        int trials = Integer.parseInt(args[1]);
-        int n = 10;  int trials = 10;
+        int n = Integer.parseInt(args[0]);
+        int trials = Integer.parseInt(args[1]);
+//        int n = 5;  int trials = 10000;
         PercolationStats ps = new PercolationStats(n, trials);
         log(ps);
     }  
