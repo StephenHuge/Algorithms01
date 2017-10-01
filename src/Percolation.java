@@ -56,7 +56,7 @@ public class Percolation {
         
         if (row == 1)             // there is a virtual root for row 1, for simplify the codes
             w.union(position, virtualUpRoot);
-        else if (row == grid.length)                      
+        if (row == grid.length)   // there is a virtual root for row grid.length, for simplify the codes
             w.union(position, virtualDownRoot);
         if (row != 1 && isOpen(row - 1, col))    // whether in the up edge             
             w.union(position, up);   
