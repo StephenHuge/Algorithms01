@@ -5,7 +5,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
  * 
  * @author HJS
  * 
- * @date 2017年9月29日
+ * @date 2017-9-29
  * 
  */
 public class Percolation {
