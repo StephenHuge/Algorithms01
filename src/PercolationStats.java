@@ -24,6 +24,10 @@ public class PercolationStats {
 	 */
 	private double stdDeviation;	 
 
+	/**
+	 * the number n
+	 */
+	private int range;
 	/*
 	 *  experiment times
 	 */
@@ -33,8 +37,8 @@ public class PercolationStats {
 	 */
 	public PercolationStats(int n, int trials) {
 		if(n <= 0 || trials <= 0) throw new java.lang.IllegalArgumentException();
+		this.range = n;
 		this.trials = trials;
-		
 		openSites = new int[trials];
 		calculate(n, trials);
 		log();
@@ -47,8 +51,8 @@ public class PercolationStats {
         for (int i = 0; i < trials; i++) {    // for trials times experiments 
 		    p = new Percolation(n);
 		    int random, row, col, prclteTimes = 0;  
-		    for (int j = 0; j < n * n; j++) { // start n * n times open until this experiment percolates
-		        random = (int) (Math.random() * (n * n - 1) + 1);    // get a random number to open, range is [1, n * n] 
+		    for (int j = 0; j < getPower2(n); j++) { // start n * n times open until this experiment percolates
+		        random = (int) (Math.random() * (getPower2(n) - 1) + 1);    // get a random number to open, range is [1, n * n] 
 		        col = random % n;     
 		        row = col == 0 ? random / n : random / n + 1;
 		        col = col == 0 ? n : col;
@@ -67,20 +71,27 @@ public class PercolationStats {
         System.out.println("stddev\t\t\t = " + stddev() );
         System.out.println("95% confidence interval\t = [" + confidenceLo() + ", " + confidenceHi() + "]");
 	}
+	private double getPower2(int num) {
+	    return num * num;
+	}
 	/**
 	 * get experiment times 
 	 */
 	private int getTrials() {
 	    return trials;
 	}
+	private int getRange() {
+	    return range;
+	}
 	/*
 	 * sample mean of percolation threshold
 	 */
 	public double mean() {
-	    avgSum = StdStats.mean(openSites) / getTrials();
+	    avgSum = StdStats.mean(openSites) / getPower2(getRange());
 		return avgSum;
 	} 
-	/*
+
+    /*
 	 * sample standard deviation of percolation threshold
 	 */
 	public double stddev() {
