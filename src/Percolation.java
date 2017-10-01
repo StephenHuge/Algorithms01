@@ -14,7 +14,6 @@ public class Percolation {
     
     private static final boolean OPENED = true;
     
-    
     private int openedNum = 0;
     
     private final int virtualUpRoot;
@@ -47,7 +46,6 @@ public class Percolation {
             grid[row - 1][col - 1] = OPENED;
             openedNum++;
         }
-
         int position = (row - 1) * grid.length + col - 1;
         int up = (row - 2) * grid.length + col - 1;
         int down = row * grid.length + col - 1;
@@ -56,19 +54,18 @@ public class Percolation {
         
         if (row == 1)             // there is a virtual root for row 1, for simplify the codes
             w.union(position, virtualUpRoot);
-        // there is a virtual root for row grid.length, for simplify the codes
-        if (row == grid.length && w.connected(position, virtualUpRoot))   
-            w.union(position, virtualDownRoot);
-        if (row != 1 && isOpen(row - 1, col))    // whether in the up edge             
+        if(row == grid.length) {
+            w.union(virtualDownRoot, position);
+        }
+        if (row != 1 && isOpen(row - 1, col))    // whether in the up edge
             w.union(position, up);   
-        if ((row != grid.length) && isOpen(row + 1, col)) // whether in the down edge 
+        if ((row != grid.length) && isOpen(row + 1, col)) // whether in the down edge
             w.union(position, down);
         if (col != 1 && isOpen(row, col - 1)) // whether in the left edge             
             w.union(position, left);
         if ((col != grid.length) && isOpen(row, col + 1)) // whether in the right edge 
             w.union(position, right);
     }
-    
     /*
      * is site (row, col) open?
      */
@@ -82,13 +79,18 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         validate(row, col);
         int position = (row - 1) * grid.length + col - 1;   // current site
-        // there is water in row 1, and if connected with virtual up root, then return true
-        if ((row == 1 && isOpen(row, col)) || w.connected(position, virtualUpRoot)) {
-//            System.out.println("isFull: " + row + " - " + col);
-            return true;
-        }    
+        // if connected with virtual up root, then return true
+        if (isOpen(row, col) && w.connected(position, virtualUpRoot)) 
+                return true;
         return false;
     } 
+    /*
+     *  does the system percolate?
+     */
+    public boolean percolates() {
+        return w.connected(virtualUpRoot, virtualDownRoot);
+    }
+    
     private void validate(int row, int col) {
         if (row < 1 || row > grid[0].length || col < 1 || col > grid.length) 
             throw new java.lang.IllegalArgumentException();
@@ -96,12 +98,6 @@ public class Percolation {
     public int numberOfOpenSites() {
         return openedNum;
     }     
-    /*
-     *  does the system percolate?
-     */
-    public boolean percolates() {
-        return w.connected(virtualUpRoot, virtualDownRoot);
-    }             
     /*
      * test client (optional)
      */
