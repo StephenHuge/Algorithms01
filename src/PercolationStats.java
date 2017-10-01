@@ -1,7 +1,7 @@
 import edu.princeton.cs.algs4.StdStats;
 
 /**
- * 多次测试获取结果
+ * get various experiments solution
  * 
  * @author 40741
  *
