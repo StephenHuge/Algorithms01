@@ -84,8 +84,7 @@ public class Percolation {
         int position = (row - 1) * grid.length + col - 1;   // current site
         // there is water in row 1, and if connected with virtual up root, then return true
         if ((row == 1 && isOpen(row, col)) || w.connected(position, virtualUpRoot)) {
-            System.out.println("isFull: " + row + " - " + col);
-            
+//            System.out.println("isFull: " + row + " - " + col);
             return true;
         }    
         return false;
