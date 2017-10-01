@@ -109,9 +109,8 @@ public class PercolationStats {
      * test client (described below)
      */
     public static void main(String[] args) {
-        int n = Integer.parseInt(args[0]);
-        int trials = Integer.parseInt(args[1]);
-//        int n = 5;  int trials = 10000;
+//        int n = Integer.parseInt(args[0]);  int trials = Integer.parseInt(args[1]);
+        int n = 5;  int trials = 10000;
         PercolationStats ps = new PercolationStats(n, trials);
         log(ps);
     }  
