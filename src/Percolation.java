@@ -106,7 +106,7 @@ public class Percolation {
         Percolation p = new Percolation(10);
         
         for (int i = 1; i <= p.grid.length; i++) {
-            for(int j = 1; j <= p.grid.length; j++) {
+            for (int j = 1; j <= p.grid.length; j++) {
                 p.open(i, j);
                 System.out.println(i + " - " + j + ": " + p.grid[i - 1][j - 1]);
             }
