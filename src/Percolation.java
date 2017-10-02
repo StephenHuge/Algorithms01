@@ -1,4 +1,4 @@
-import edu.princeton.cs.algs4.UF;
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 /**
  * implement class Percolation 
  * 
@@ -10,8 +10,8 @@ import edu.princeton.cs.algs4.UF;
 public class Percolation {
     
     private final boolean[][] sites;    // model that we use for class Percolation 
-    private final UF ufP;     // for percolates() method, there are (n * n + 2) sites
-    private final UF ufF;     // for isFull() method, there are (n * n + 1) sites
+    private final WeightedQuickUnionUF ufP;     // for percolates() method, there are (n * n + 2) sites
+    private final WeightedQuickUnionUF ufF;     // for isFull() method, there are (n * n + 1) sites
     
     private final int virtualUpRootP;    // virtual up root for ufP 
     private final int virtualDownRootP;  // virtual down root for ufP
@@ -22,14 +22,16 @@ public class Percolation {
     
     public Percolation(int n)                
     {
+        if(n <= 0) 
+            throw new java.lang.IllegalArgumentException();
         sites = new boolean[n][n];  // create n-by-n grid, with all sites blocked
         
         // init all variables
-        ufP = new UF(n * n + 2);
+        ufP = new WeightedQuickUnionUF(n * n + 2);
         virtualUpRootP = n * n;
         virtualDownRootP = n * n + 1;
         
-        ufF = new UF(n * n + 1);
+        ufF = new WeightedQuickUnionUF(n * n + 1);
         virtualUpRootF = n * n;
         
         openedCount = 0;
@@ -110,5 +112,6 @@ public class Percolation {
     }
     public static void main(String[] args)   // test client (optional)
     {
+        // UncommentedEmptyMethodBody
     }
 }

@@ -11,7 +11,6 @@ import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
     
     private static final double CONFIDENCE_95 = 1.96;
-    private Percolation p;
     private double[] openSites;
     private final int exTimes;
     
@@ -24,10 +23,11 @@ public class PercolationStats {
         calculate(n, trials);
     }
     private void calculate(int n, int trials) {
+        Percolation p;
         for (int i = 0; i < trials; i++) 
         {
             p = new Percolation(n);
-            for (; ;) 
+            for (;;) 
             {
                 int row = StdRandom.uniform(n) + 1; // a random integer uniformly in [1, n + 1)
                 int col = StdRandom.uniform(n) + 1; // a random integer uniformly in [0, n + 1)
@@ -80,7 +80,8 @@ public class PercolationStats {
     }
     public static void main(String[] args)        // test client (described below)
     {
-      int n = Integer.parseInt(args[0]);  int trials = Integer.parseInt(args[1]);
+      int n = Integer.parseInt(args[0]);  
+      int trials = Integer.parseInt(args[1]);
 //      int n = 50;  int trials = 20;
       PercolationStats ps = new PercolationStats(n, trials);
       log(ps);
