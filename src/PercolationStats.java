@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.StdStats;
  *  
  * @author HJS
  *
- * @date 2017Äê10ÔÂ2ÈÕ
+ * @date 2017-10-2
  */
 public class PercolationStats {
     
