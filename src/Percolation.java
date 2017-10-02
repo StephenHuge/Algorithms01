@@ -22,7 +22,7 @@ public class Percolation {
     
     public Percolation(int n)                
     {
-        if(n <= 0) 
+        if (n <= 0) 
             throw new java.lang.IllegalArgumentException();
         sites = new boolean[n][n];  // create n-by-n grid, with all sites blocked
         
