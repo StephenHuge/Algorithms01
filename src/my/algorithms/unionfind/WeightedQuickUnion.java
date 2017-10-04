@@ -57,7 +57,7 @@ public class WeightedQuickUnion extends UF {
     public static void main(String[] args) {
         Scanner in = null;
         try {
-            in = new Scanner(new File("src/tinyUF.txt"));
+            in = new Scanner(new File("src/largeUF.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -79,15 +79,15 @@ public class WeightedQuickUnion extends UF {
             p = Integer.parseInt(strs[0]);
             q = Integer.parseInt(strs[1]);
             if(uf.connected(p, q)) {
-                System.out.println(p + " and " +q + " is connected!");
+//                System.out.println(p + " and " +q + " is connected!");
                 continue;
             }   
             uf.union(p, q);
             
-            System.out.print("The array is ");
-            for(int i : uf.id)
-                System.out.print(i + " ");
-           System.out.println("There are " + uf.count() + " components left.");
+//            System.out.print("The array is ");
+//            for(int i : uf.id)
+//                System.out.print(i + " ");
+//           System.out.println("There are " + uf.count() + " components left.");
         }
         in.close();
         System.out.println("execution stop...");

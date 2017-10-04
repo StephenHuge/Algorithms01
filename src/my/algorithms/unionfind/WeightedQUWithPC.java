@@ -51,8 +51,8 @@ public class WeightedQUWithPC extends UF {
     @Override
     public int find(int p) {
         if(p < 0 || p > id.length - 1)  throw new java.lang.ArrayIndexOutOfBoundsException();
-        while(p != id[p]) p = id[p];
-        return p;
+        while(p != id[p]) p = find(id[p]);
+        return id[p];
     }
     
     private int root(int i) {
@@ -69,7 +69,7 @@ public class WeightedQUWithPC extends UF {
     public static void main(String[] args) {
         Scanner in = null;
         try {
-            in = new Scanner(new File("src/tinyUF.txt"));
+            in = new Scanner(new File("src/largeUF.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -91,15 +91,15 @@ public class WeightedQUWithPC extends UF {
             p = Integer.parseInt(strs[0]);
             q = Integer.parseInt(strs[1]);
             if(uf.connected(p, q)) {
-                System.out.println(p + " and " +q + " is connected!");
+//                System.out.println(p + " and " +q + " is connected!");
                 continue;
             }   
             uf.union(p, q);
             
-            System.out.print("The array is ");
-            for(int i : uf.id)
-                System.out.print(i + " ");
-           System.out.println("There are " + uf.count() + " components left.");
+//            System.out.print("The array is ");
+//            for(int i : uf.id)
+//                System.out.print(i + " ");
+//           System.out.println("There are " + uf.count() + " components left.");
         }
         in.close();
         System.out.println("execution stop...");
